@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+websockets
+requests
+typer
+sounddevice
+numpy
+keyboard
