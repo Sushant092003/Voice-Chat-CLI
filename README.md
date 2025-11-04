@@ -1,62 +1,73 @@
-# ChatRoom (Python) - Text-first Prototype
+# ChatRoom (Python)
 
-This repository contains a minimal prototype of the ChatRoom project implemented in Python.
-It includes a **FastAPI WebSocket server** and a **Typer-based CLI client** for interactive text chat.
+Minimal CLI chat system built with **FastAPI** and **WebSockets**.
+Includes a **server** and **CLI client** for real-time room-based chat.
 
-## Features (MVP)
-- Create/join rooms by room ID (server handles rooms in memory)
-- Real-time text chat using WebSockets
-- Simple CLI client to join and chat
+## Features
+
+- Create/join chat rooms by room ID
+- Real-time text chat via WebSockets
+- Typer-based CLI client
+- In-memory room management (no DB yet)
 
 ## Structure
+
 ```
 chatroom_python/
 ├── server/
 │   └── server.py       # FastAPI WebSocket server
 ├── client/
-│   └── client.py       # Typer CLI client (uses websockets)
+│   └── client.py       # Typer CLI client
 ├── requirements.txt
 └── README.md
 ```
 
 ## Quick Start (local)
 
-1. Create a virtual environment (recommended)
+_This project uses the `uv` package manager._
+
+1. **Install dependencies**
+
    ```sh
-   python -m venv .venv
-   source .venv/bin/activate   # Linux/Mac
-   .\.venv\Scripts\activate  # Windows (PowerShell)
+   uv sync
    ```
 
-2. Install dependencies
-   ```sh
-   pip install -r requirements.txt
-   ```
+2. **Run the server**
 
-3. Run the server
    ```sh
    cd server
-   python server.py
-   # or: uvicorn server:app --reload --port 8000
+   uv run server.py
+   # or:
+   uv run uvicorn server:app --reload --port 8000
    ```
 
-4. Run the client (in another terminal)
+3. **Run a client**
+
    ```sh
    cd client
-   python client.py join --room 1234 --name Alice
+   uv run client.py 1234 Alice
    ```
 
-5. Open another client and join the same room:
+4. **Open another client (same room)**
+
    ```sh
-   python client.py join --room 1234 --name Bob
+   uv run client.py 1234 Bob
    ```
 
-Type messages in the client terminals and press Enter to send.
+Then just type messages and hit Enter to chat.
 
 ## Notes & Next Steps
-- This is an in-memory, single-process server (rooms stored in Python dict). For production you should use persistent storage and user authentication.
-- Voice support is not included in this initial prototype. For voice, consider using UDP streaming with `sounddevice` or `pyaudio`, and optionally a codec like Opus or aiortc for WebRTC.
-- To expose the server publicly, deploy to a cloud/VPS and open the appropriate port (8000). For quick testing from remote machines, tools like `ngrok` can create a public tunnel.
+
+- Rooms are stored in memory — no persistence or auth yet.
+- Add persistence (Redis, DB) for multi-instance setups.
+- Voice support planned (likely via UDP or WebRTC).
+- For remote testing, use tools like `ngrok` to expose port `8000`.
+
+## References
+
+- [Weechat](https://weechat.org/)
+- [Simplex Chat](https://simplex.chat/docs/cli.html)
 
 ## License
+
 MIT
